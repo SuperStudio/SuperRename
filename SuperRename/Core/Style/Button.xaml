@@ -1,0 +1,17 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chao="https://gitee.com/secret/chao-controls">
+
+
+    <Style x:Key="HorizontalPathButton" TargetType="{x:Type chao:PathButton}">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="PathHeight" Value="15" />
+        <Setter Property="Fill" Value="AliceBlue" />
+        <Setter Property="Padding" Value="5,0" />
+
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="TextMargin" Value="10 5 0 5" />
+    </Style>
+</ResourceDictionary>

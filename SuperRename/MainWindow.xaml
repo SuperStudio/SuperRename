@@ -1,0 +1,482 @@
+﻿<chao:BaseWindow
+    x:Class="SuperRename.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chao="https://gitee.com/secret/chao-controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SuperRename"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+    Title="SuperRename-超级重命名工具"
+    Width="800"
+    Height="450"
+    Background="#1E1E1E"
+    Foreground="White"
+    Icon="/Resources/logo.ico"
+    TitleAlign="Left"
+    TitleMargin="0"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <chao:BaseWindow.Resources>
+
+        <Style x:Key="SearchBoxStyle" TargetType="{x:Type chao:SearchBox}">
+            <Setter Property="MinWidth" Value="100" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="#326CF3" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="PlaceHolder" Value="" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="PlaceHolderForeground" Value="Gray" />
+            <Setter Property="ShowClearButton" Value="True" />
+        </Style>
+        <Style
+            x:Key="CheckBoxStyle"
+            BasedOn="{StaticResource NormalCheckBox}"
+            TargetType="{x:Type CheckBox}">
+            <Setter Property="Background" Value="#38C550" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Tag" Value="White" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style
+            x:Key="CommonButton"
+            BasedOn="{StaticResource FillButton}"
+            TargetType="Button">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Background" Value="#409EFF" />
+        </Style>
+
+        <Style x:Key="HoverSpliter" TargetType="GridSplitter">
+            <Setter Property="Background" Value="Gray" />
+            <Setter Property="Margin" Value="0" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard FillBehavior="HoldEnd">
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="Background.Color"
+                                    To="#007FD4"
+                                    Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="Background.Color"
+                                    To="Gray"
+                                    Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="EditTextBox" TargetType="TextBox">
+            <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="MinWidth" Value="50" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CaretBrush" Value="White" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="Width" Value="8" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="SizeWE" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </chao:BaseWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TabControl
+                x:Name="ToolsPanel"
+                Height="120"
+                Background="Transparent"
+                ItemContainerStyle="{StaticResource FlatTabItem}"
+                SelectedIndex="0"
+                SelectionChanged="ToolsPanel_SelectionChanged"
+                Style="{StaticResource FlatTabControl}">
+                <TabItem Header="文件">
+                    <StackPanel Orientation="Horizontal">
+                        <chao:PathButton
+                            Width="80"
+                            Margin="5,5,0,5"
+                            Click="ScanDir"
+                            Fill="#FFE79E"
+                            Loaded="PathButton_Loaded"
+                            Path="M905.86 225.91a36.132 36.132 0 0 0-25.56-10.58H462.4l-11.65-38.71c-4.48-15.35-18.51-25.93-34.5-26.02H137.48c-9.58 0-18.78 3.81-25.56 10.58a36.132 36.132 0 0 0-10.58 25.56v650.51a36.13 36.13 0 0 0 10.58 25.57 36.16 36.16 0 0 0 25.56 10.59H880.3c9.59 0 18.78-3.81 25.56-10.59a36.155 36.155 0 0 0 10.58-25.57V251.47a36.09 36.09 0 0 0-10.58-25.56z m-45.74 111.4H157.84V306.1a36.142 36.142 0 0 1 36.14-36.14h629.99a36.142 36.142 0 0 1 36.14 36.14v31.21z"
+                            Text="扫描文件夹" />
+
+
+                        <StackPanel Orientation="Vertical">
+                            <chao:PathButton
+                                Click="SelectAll"
+                                Fill="#399BE8"
+                                Path="M472.007111 399.872a85.248 85.248 0 0 1-84.992 84.992H84.992A85.248 85.248 0 0 1 0 399.872V84.992A85.219556 85.219556 0 0 1 84.992 0h302.023111a85.248 85.248 0 0 1 84.992 84.992v314.88z m0 0M472.007111 939.036444A85.219556 85.219556 0 0 1 387.015111 1024H84.992A85.219556 85.219556 0 0 1 0 939.036444v-314.88a85.248 85.248 0 0 1 84.992-84.992h302.023111a85.248 85.248 0 0 1 84.992 84.992v314.88z m0 0M1024 399.872a85.248 85.248 0 0 1-84.992 84.992H636.956444a85.248 85.248 0 0 1-84.992-84.992V84.992A85.248 85.248 0 0 1 636.956444 0h302.051556A85.219556 85.219556 0 0 1 1024 84.992v314.88z m0 0M1024 939.036444A85.219556 85.219556 0 0 1 939.036444 1024h-302.08a85.219556 85.219556 0 0 1-84.963555-84.963556v-314.88a85.219556 85.219556 0 0 1 84.963555-84.992h302.051556a85.219556 85.219556 0 0 1 84.963556 84.992v314.88z m0 0"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="全部选择" />
+                            <chao:PathButton
+                                Click="UnSelectAll"
+                                Path="M472.007111 399.872a85.248 85.248 0 0 1-84.992 84.992H84.992A85.248 85.248 0 0 1 0 399.872V84.992A85.219556 85.219556 0 0 1 84.992 0h302.023111a85.248 85.248 0 0 1 84.992 84.992v314.88z m0 0M472.007111 939.036444A85.219556 85.219556 0 0 1 387.015111 1024H84.992A85.219556 85.219556 0 0 1 0 939.036444v-314.88a85.248 85.248 0 0 1 84.992-84.992h302.023111a85.248 85.248 0 0 1 84.992 84.992v314.88z m0 0M1024 399.872a85.248 85.248 0 0 1-84.992 84.992H636.956444a85.248 85.248 0 0 1-84.992-84.992V84.992A85.248 85.248 0 0 1 636.956444 0h302.051556A85.219556 85.219556 0 0 1 1024 84.992v314.88z m0 0M1024 939.036444A85.219556 85.219556 0 0 1 939.036444 1024h-302.08a85.219556 85.219556 0 0 1-84.963555-84.963556v-314.88a85.219556 85.219556 0 0 1 84.963555-84.992h302.051556a85.219556 85.219556 0 0 1 84.963556 84.992v314.88z m0 0"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="取消全选" />
+                            <chao:PathButton
+                                Click="SelectOppsite"
+                                Path="M512 967.111111a455.111111 455.111111 0 1 1 455.111111-455.111111 455.111111 455.111111 0 0 1-455.111111 455.111111zM170.666667 512a341.333333 341.333333 0 0 0 341.333333 341.333333V170.666667a341.333333 341.333333 0 0 0-341.333333 341.333333z"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="反向选择" />
+                        </StackPanel>
+                        <chao:PathButton
+                            Width="60"
+                            Margin="5,5,0,5"
+                            Click="Button_Click"
+                            Fill="Red"
+                            Path="M687.6 96.4H336.4v91.2h351.1V96.4zM636.7 398v405.5h-73.9V398h73.9z m-175.5 0v405.5h-73.9V398h73.9z m332.1-119.2H230.7l27.9 648.8h506.7l28-648.8zM696.8 5.1c40.4 0 73.3 35.6 73.9 79.8v102.7h147.8c20.2 0 36.6 17.8 37 39.9v41.2c0 5.5-4 10-9 10.1h-70.1L848 941.6c-1.8 42.9-33.7 76.6-72.6 77.3H249.8c-39 0-71.3-33.4-73.7-76l-0.1-1.3-28.5-662.7H77.7c-5 0-9.1-4.4-9.2-9.8v-40.9c0-22.2 16.2-40.2 36.3-40.5h148.4V86.2c0-44.3 32.5-80.4 72.7-81.1h370.9z"
+                            Text="清空" />
+                        <StackPanel Orientation="Vertical">
+                            <chao:PathButton
+                                HorizontalAlignment="Left"
+                                Click="RemoveSelect"
+                                Fill="#DE0000"
+                                Path="M601.376 512l191.52-191.52c28.096-28.096 30.976-71.168 6.4-95.744s-67.68-21.696-95.744 6.4l-191.52 191.52-191.52-191.52c-28.096-28.096-71.168-30.976-95.744-6.368s-21.696 67.68 6.4 95.744l191.52 191.52-191.52 191.52c-28.096 28.096-30.976 71.168-6.368 95.744s67.68 21.696 95.744-6.4l191.52-191.52 191.52 191.52c28.096 28.096 71.168 30.976 95.744 6.4s21.696-67.68-6.4-95.744l-191.52-191.52z"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="去除选中项" />
+                            <chao:PathButton
+                                Click="RemoveDir"
+                                Fill="#D84141"
+                                Path="M797.696 442.368q-60.416 0-113.152 22.528t-91.648 61.952-61.952 92.16-23.04 113.152q0 50.176 17.408 97.28l-392.192 0q-21.504 0-44.544-9.216t-42.496-26.112-31.744-40.96-12.288-53.76l0-41.984 0-81.92q0-47.104-0.512-100.864t-0.512-99.84l0-78.848 0-35.84q0-61.44 34.304-97.28t94.72-35.84l503.808 0q23.552 0 47.616 8.704t43.008 24.064 31.232 35.84 12.288 44.032l0 13.312-517.12 0q-51.2 0-67.584 57.344-8.192 29.696-18.432 62.976t-18.432 61.952q-10.24 33.792-20.48 65.536-2.048 8.192-2.048 14.336 0 16.384 11.264 28.16t28.672 11.776 26.624-12.288 14.336-27.648l56.32-196.608 541.696 0q18.432 3.072 35.84 11.776t30.208 23.552 18.432 36.864 0.512 51.712q0 2.048-0.512 5.12t-1.536 8.192q-39.936-13.312-88.064-13.312zM802.816 510.976q46.08 0 86.016 17.408t70.144 47.616 47.616 70.144 17.408 86.016-17.408 86.016-47.616 70.144-70.144 47.616-86.016 17.408-86.016-17.408-70.144-47.616-47.616-70.144-17.408-86.016 17.408-86.016 47.616-70.144 70.144-47.616 86.016-17.408zM845.824 729.088l67.584-68.608q9.216-9.216 9.216-22.528t-9.216-22.528-22.528-9.216-22.528 9.216l-68.608 68.608-67.584-68.608q-9.216-9.216-22.528-9.216t-22.528 9.216-9.216 22.528 9.216 22.528l67.584 68.608-67.584 67.584q-9.216 9.216-9.216 22.528t9.216 22.528q9.216 10.24 22.528 10.24t22.528-10.24l67.584-67.584 68.608 67.584q9.216 10.24 22.528 10.24t22.528-10.24q9.216-9.216 9.216-22.528t-9.216-22.528z"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="去除文件夹" />
+                            <chao:PathButton
+                                HorizontalAlignment="Left"
+                                Click="RemoveFile"
+                                Fill="#F55300"
+                                Path="M390.43072 163.84l81.5104 102.4H880.64a40.96 40.96 0 0 1 40.96 40.96v532.48a40.96 40.96 0 0 1-40.96 40.96H143.36a40.96 40.96 0 0 1-40.96-40.96V204.8a40.96 40.96 0 0 1 40.96-40.96h247.07072zM675.84 532.48H348.16v81.92h327.68v-81.92z"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="去除文件" />
+
+                        </StackPanel>
+                        <chao:PathButton
+                            Width="50"
+                            Margin="0,5"
+                            Click="CopyAll"
+                            Fill="White"
+                            Path="M779.636364 93.090909a128 128 0 0 1 127.906909 122.856727L907.636364 221.090909V768a128 128 0 0 1-122.856728 127.906909l-5.143272 0.093091-101.888 0.023273A92.928 92.928 0 0 1 605.090909 930.909091H209.454545a93.090909 93.090909 0 0 1-93.090909-93.090909V302.545455a93.090909 93.090909 0 0 1 93.090909-93.09091h105.239273a128 128 0 0 1 122.344727-116.270545L442.181818 93.090909h337.454546zM605.090909 279.272727H209.454545a23.272727 23.272727 0 0 0-23.109818 20.549818L186.181818 302.545455v535.272727a23.272727 23.272727 0 0 0 20.549818 23.109818L209.454545 861.090909h395.636364a23.272727 23.272727 0 0 0 23.109818-20.549818L628.363636 837.818182V302.545455a23.272727 23.272727 0 0 0-20.549818-23.109819L605.090909 279.272727z m174.545455-116.363636H442.181818a58.181818 58.181818 0 0 0-57.018182 46.545454H605.090909a93.090909 93.090909 0 0 1 93.090909 93.09091v523.636363h81.454546a58.181818 58.181818 0 0 0 58.065454-54.365091L837.818182 768V221.090909a58.181818 58.181818 0 0 0-54.365091-58.065454L779.636364 162.909091z m-232.727273 512a34.909091 34.909091 0 0 1 0 69.818182h-279.272727a34.909091 34.909091 0 0 1 0-69.818182h279.272727z m0-139.636364a34.909091 34.909091 0 0 1 0 69.818182h-279.272727a34.909091 34.909091 0 0 1 0-69.818182h279.272727z m0-139.636363a34.909091 34.909091 0 0 1 0 69.818181h-279.272727a34.909091 34.909091 0 0 1 0-69.818181h279.272727z"
+                            Text="复制" />
+                        <chao:PathButton
+                            Width="50"
+                            Margin="0,5"
+                            Fill="White"
+                            Path="M823.296 60.416q65.536 0 99.328 38.4t33.792 93.696l0 543.744q0 25.6-21.504 46.08l-171.008 163.84q-13.312 11.264-22.528 14.336t-23.552 3.072l-459.776 0q-23.552 0-47.104-9.728t-41.984-27.648-30.208-43.008-11.776-55.808l0-634.88q0-60.416 33.28-96.256t94.72-35.84l568.32 0zM608.256 702.464q13.312 0 22.528-9.216t9.216-22.528q0-14.336-9.216-23.04t-22.528-8.704l-320.512 0q-13.312 0-22.528 8.704t-9.216 23.04q0 13.312 9.216 22.528t22.528 9.216l320.512 0zM736.256 509.952q13.312 0 22.528-9.216t9.216-22.528-9.216-22.528-22.528-9.216l-448.512 0q-13.312 0-22.528 9.216t-9.216 22.528 9.216 22.528 22.528 9.216l448.512 0zM799.744 318.464q13.312 0 22.528-9.216t9.216-23.552q0-13.312-9.216-22.528t-22.528-9.216l-512 0q-13.312 0-22.528 9.216t-9.216 22.528q0 14.336 9.216 23.552t22.528 9.216l512 0z"
+                            Text="粘贴" />
+                        <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+                            <chao:PathButton
+                                Click="Export"
+                                Fill="#399BE8"
+                                Path="M924 75H100C44.8 75 0 119.8 0 175v674c0 55.2 44.8 100 100 100h824c55.2 0 100-44.8 100-100V175c0-55.2-44.8-100-100-100z m0 819H100c-24.8 0-45-20.2-45-45V332h914v517c0 24.8-20.2 45-45 45zM670.5 206c0 22.3-18.1 40.4-40.4 40.4-22.3 0-40.4-18.1-40.4-40.4s18.1-40.4 40.4-40.4c22.3 0 40.4 18.1 40.4 40.4z m249.2 0c0 22.3-18.1 40.4-40.4 40.4-22.3 0-40.4-18.1-40.4-40.4s18.1-40.4 40.4-40.4c22.3 0 40.4 18.1 40.4 40.4z m-124.6 0c0 22.3-18.1 40.4-40.4 40.4-22.3 0-40.4-18.1-40.4-40.4s18.1-40.4 40.4-40.4c22.3 0 40.4 18.1 40.4 40.4zM186 783.5c11.9 10.2 31.3 10.2 43.2 0l152.5-130.8c6-5.1 8.9-11.9 8.9-18.6 0-6.7-3-13.5-8.9-18.6L229.2 484.7c-11.9-10.2-31.3-10.2-43.2 0-11.9 10.2-11.9 26.8 0 37l131 112.4-131 112.3c-11.9 10.2-11.9 26.8 0 37.1z m513.2 5H464.6c-15.2 0-27.5-12.3-27.5-27.5s12.3-27.5 27.5-27.5h234.6c15.2 0 27.5 12.3 27.5 27.5s-12.3 27.5-27.5 27.5z"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="导出为 bash" />
+                            <chao:PathButton
+                                Click="Export"
+                                Fill="#45b058"
+                                Path="M249.856 389.12v-178.176c0-45.056 36.864-81.92 81.92-81.92h456.704l163.84 167.936v337.92c0 12.288-8.192 20.48-20.48 20.48s-20.48-8.192-20.48-20.48V337.92h-102.4c-34.816 0-61.44-26.624-61.44-61.44v-106.496h-415.744c-22.528 0-40.96 18.432-40.96 40.96v178.176h456.704c22.528 0 40.96 18.432 40.96 40.96v286.72c0 22.528-18.432 40.96-40.96 40.96h-456.704v61.44c0 22.528 18.432 40.96 40.96 40.96h538.624c22.528 0 40.96-18.432 40.96-40.96v-61.44c0-12.288 8.192-20.48 20.48-20.48s20.48 8.192 20.48 20.48v61.44c0 45.056-36.864 81.92-81.92 81.92h-538.624c-45.056 0-81.92-36.864-81.92-81.92v-61.44h-137.216c-22.528 0-40.96-18.432-40.96-40.96v-286.72c0-22.528 18.432-40.96 40.96-40.96h137.216z m538.624-202.752v90.112c0 10.24 8.192 20.48 20.48 20.48h86.016l-106.496-110.592z m-473.088 350.208c-14.336-38.912-40.96-57.344-83.968-59.392-59.392 4.096-90.112 36.864-94.208 102.4 2.048 65.536 34.816 100.352 94.208 102.4 47.104 0 77.824-22.528 88.064-67.584l-36.864-12.288c-4.096 32.768-22.528 47.104-49.152 47.104-34.816-2.048-53.248-26.624-55.296-71.68 2.048-45.056 20.48-67.584 55.296-69.632 24.576 2.048 40.96 14.336 47.104 36.864l34.816-8.192z m26.624 79.872c10.24 45.056 38.912 65.536 90.112 65.536s75.776-20.48 77.824-59.392c0-24.576-14.336-40.96-40.96-53.248l-36.864-12.288c-28.672-6.144-43.008-16.384-40.96-28.672 2.048-16.384 14.336-22.528 34.816-24.576 24.576 0 38.912 10.24 43.008 32.768l36.864-8.192c-6.144-36.864-34.816-57.344-81.92-55.296-45.056 2.048-69.632 20.48-71.68 53.248-2.048 28.672 16.384 47.104 57.344 57.344 10.24 2.048 20.48 4.096 30.72 8.192 22.528 6.144 32.768 16.384 30.72 30.72-2.048 18.432-14.336 26.624-38.912 28.672-28.672 0-47.104-14.336-51.2-45.056l-38.912 10.24z m380.928-137.216h-40.96l-49.152 145.408c-4.096 12.288-6.144 18.432-6.144 20.48 0-4.096-2.048-10.24-6.144-20.48l-51.2-147.456h-40.96l77.824 198.656h43.008l73.728-196.608z"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="导出为 csv" />
+                            <chao:PathButton
+                                Click="Export"
+                                Fill="#F9CA06"
+                                Path="M736.177 95.932l-0.492 0.492v-0.356l-31.998 0.001h-544c-35.346 0-64 28.654-64 64v704c0 35.347 28.654 64 64 64h704c35.346 0 64-28.653 64-64v-576h0.627L736.177 95.932zM397.749 502.037h-75.781v202.031h-30.313V502.037h-75.469v-27.031h181.563v27.031z m180.313 202.031l-57.656-81.719c-3.23-4.688-6.563-9.79-10-15.313-5.105 8.335-8.75 14.063-10.938 17.188l-57.5 79.844h-36.406l88.594-119.375-78.126-109.687h36.094l41.563 58.75c8.645 12.188 14.79 21.563 18.438 28.125 5.103-8.332 11.145-17.031 18.125-26.094l46.094-60.781h32.969l-80.469 107.969 86.719 121.094h-37.501z m228.593-202.031h-75.781v202.031h-30.313V502.037h-75.469v-27.031h181.563v27.031z m-54.97-213.967c-8.836 0-16-7.164-16-16V140.694L883.061 288.07H751.685z"
+                                Style="{StaticResource HorizontalPathButton}"
+                                Text="导出为 txt" />
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="后缀名">
+                    <WrapPanel Grid.Column="0" Orientation="Horizontal">
+                        <CheckBox
+                            Click="ChangeExt"
+                            Content="修改后缀为"
+                            IsChecked="{Binding ChangeExt}"
+                            Style="{StaticResource CheckBoxStyle}" />
+                        <chao:SearchBox
+                            PlaceHolder="后缀名"
+                            Style="{StaticResource SearchBoxStyle}"
+                            Text="{Binding Ext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </WrapPanel>
+
+                </TabItem>
+
+                <TabItem Header="替换">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                            <CheckBox
+                                Click="ChangeExt"
+                                Content="将原名称中的"
+                                IsChecked="{Binding Replace}"
+                                Style="{StaticResource CheckBoxStyle}" />
+
+                            <chao:SearchBox Style="{StaticResource SearchBoxStyle}" Text="{Binding ToReplace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock VerticalAlignment="Center" Text="替换为" />
+                            <chao:SearchBox Style="{StaticResource SearchBoxStyle}" Text="{Binding ReplaceString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="20,5"
+                                VerticalAlignment="Center"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Text="模式" />
+                            <RadioButton
+                                VerticalAlignment="Top"
+                                Content="普通"
+                                IsChecked="True"
+                                Style="{StaticResource FlatRadioButton}" />
+                            <RadioButton
+                                VerticalAlignment="Top"
+                                Content="正则"
+                                IsChecked="{Binding UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=False}"
+                                Style="{StaticResource FlatRadioButton}" />
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="关于">
+                    <StackPanel Margin="10" Orientation="Vertical">
+                        <TextBlock
+                            Margin="0,0,0,5"
+                            FontSize="20"
+                            Foreground="Gold"
+                            Text="SuperRename" />
+                        <TextBlock FontSize="10" Text="超级重命名工具" />
+                        <TextBlock
+                            Margin="0,5"
+                            FontSize="10"
+                            Text="版本：1.0" />
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="设置" />
+            </TabControl>
+            <ToggleButton
+                Width="30"
+                Height="20"
+                Margin="5"
+                Padding="0,1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="TogglePanel"
+                IsChecked="{Binding ExpandTogglePanel}"
+                Style="{StaticResource TogglePanelButton}"
+                Tag="Gray">
+                <Viewbox
+                    Width="auto"
+                    Height="auto"
+                    Margin="0,2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    RenderTransformOrigin=".5,.5">
+                    <Viewbox.RenderTransform>
+                        <RotateTransform x:Name="rotateTransform" Angle="180" />
+                    </Viewbox.RenderTransform>
+                    <Path
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Data="M857.088 224.256q28.672-28.672 69.12-28.672t69.12 28.672q29.696 28.672 29.696 68.608t-29.696 68.608l-382.976 380.928q-12.288 14.336-30.72 19.968t-38.912 4.608-40.448-8.704-34.304-22.016l-376.832-374.784q-29.696-28.672-29.696-68.608t29.696-68.608q14.336-14.336 32.256-21.504t36.864-7.168 37.376 7.168 32.768 21.504l313.344 309.248z"
+                        Fill="White" />
+                </Viewbox>
+            </ToggleButton>
+        </Grid>
+
+        <!--<StackPanel Orientation="Horizontal">
+            <Button
+                Background="#F56C6C"
+                Click="Button_Click"
+                Content="清空"
+                Style="{StaticResource CommonButton}" />
+        </StackPanel>-->
+
+        <Grid Grid.Row="1">
+            <DataGrid
+                x:Name="dataGrid"
+                Margin="5"
+                chao:DataGrid.RowHeight="35"
+                AllowDrop="True"
+                Drop="DataGrid_Drop"
+                DropLocationIndicatorStyle="{DynamicResource DataGridStyle2}"
+                Foreground="White"
+                ItemsPanel="{DynamicResource ItemsPanelTemplate1}"
+                ItemsSource="{Binding DataList}"
+                Style="{DynamicResource FlatDataGrid}">
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Click="OpenDir" Header="打开位置" />
+                        <MenuItem Click="DeleteItem" Header="从列表中删除" />
+                        <MenuItem Click="SelectAll" Header="全选" />
+                        <MenuItem Click="UnSelectAll" Header="反选" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn
+                        Width="auto"
+                        MinWidth="45"
+                        CanUserResize="False">
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox
+                                HorizontalAlignment="Center"
+                                Background="#38C550"
+                                Checked="CheckBox_Checked"
+                                Foreground="White"
+                                IsChecked="True"
+                                Style="{StaticResource NormalCheckBox}"
+                                Tag="White"
+                                Unchecked="CheckBox_Unchecked" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    HorizontalAlignment="Center"
+                                    Background="#38C550"
+                                    Foreground="White"
+                                    IsChecked="{Binding Enable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Style="{StaticResource NormalCheckBox}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn
+                        Width="50"
+                        MinWidth="50"
+                        CanUserSort="True"
+                        Header="状态"
+                        SortMemberPath="Source">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox
+                                    Foreground="White"
+                                    Style="{StaticResource ReadOnlyTextBox}"
+                                    Text="{Binding StatusMessage, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTemplateColumn
+                        Width="auto"
+                        MinWidth="100"
+                        CanUserSort="True"
+                        Header="原名称"
+                        SortMemberPath="Source">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox
+                                    Foreground="White"
+                                    Style="{StaticResource ReadOnlyTextBox}"
+                                    Text="{Binding Source, Mode=OneWay, Converter={StaticResource SmallerPathConverter}, ConverterParameter=1}"
+                                    TextWrapping="NoWrap"
+                                    ToolTip="{Binding Source, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!--<DataGridTextColumn
+                        Width="SizeToCells"
+                        Binding="{Binding Target, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Header="目标名" />-->
+
+                    <DataGridTemplateColumn
+                        Width="150"
+                        MinWidth="800"
+                        CanUserSort="True"
+                        Header="修改后名称"
+                        SortMemberPath="Target">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox
+                                    Name="tb"
+                                    Style="{StaticResource EditTextBox}"
+                                    Text="{Binding Target, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ToolTip="{Binding Target, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+
+                </DataGrid.Columns>
+
+
+            </DataGrid>
+
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Text="拖入文件"
+                Visibility="{Binding ShowDragHint}" />
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox
+                Grid.Column="0"
+                Margin="10,0"
+                Foreground="White"
+                Style="{StaticResource ReadOnlyTextBox}"
+                Text="{Binding ElementName=dataGrid, Path=Items.Count, FallbackValue=0, Mode=OneWay, StringFormat=总数目：{0}}" />
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="Preview"
+                    Content="预览"
+                    Style="{StaticResource CommonButton}" />
+                <Button
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="BeginChangeName"
+                    Content="执行"
+                    IsEnabled="{Binding CanRun}"
+                    Style="{StaticResource CommonButton}" />
+            </StackPanel>
+
+        </Grid>
+
+
+
+    </Grid>
+</chao:BaseWindow>

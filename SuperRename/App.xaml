@@ -1,0 +1,19 @@
+﻿<Application
+    x:Class="SuperRename.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SuperRename"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ChaoControls.Style;Component/XAML/Skin/DefaultColor.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/ChaoControls.Style;Component/Themes/ChaoControls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/ChaoControls.Style;Component/XAML/CustomControls/Switch.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/ChaoControls.Style;Component/XAML/CustomControls/TogglePanel.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/SuperRename;Component/Core/Style/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>
